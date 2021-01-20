@@ -1,5 +1,9 @@
 class Character():
+    """
+    This class represents a Character, it is initialised by passing a name and description
+    The properties conversation and and Item object can be set.
 
+    """
     # Create a character
     def __init__(self, char_name, char_description):
         self.name = char_name
@@ -7,20 +11,21 @@ class Character():
         self.conversation = None
         self._item = None
 
-    # Describe this character
+    """ Displays to the user a discription of the character"""
     def describe(self):
         print(f"{self.name} is here! {self.description}")
 
         if self._item is not None:
             print(f"They have a {self._item.name}")
 
-    # Set what this character will say when talked to
+    """ A function for setting what this character will say when talked to """
     def set_conversation(self, conversation):
         self.conversation = conversation
     
     def get_conversation(self):
         return self.conversation
-        
+
+    """ A method for returning and setting the Item the character is holding"""       
     @property
     def item(self):
         return self._item
@@ -29,18 +34,20 @@ class Character():
     def item(self, item_name):
         self._item = item_name
 
-    # Talk to this character
+    """If character has a conversation, display the result to the user"""    
     def talk(self):
         if self.conversation is not None:
             print(f"[{self.name} says]: {self.conversation}")
         else:
             print(f"{self.name} doesn't want to talk to you")
 
-    # Fight with this character
+    """A standard character does not want to fight, polymorphed for a Enemy"""
     def fight(self, combat_item):
         print(f"{self.name} doesn't want to fight with you")
         return True
     
+    """If you try to steal of a normal character, it has to be the eexact item ot the player dies
+        True/False returned to denote if succesful"""
     def steal(self, steal_item):
         if steal_item == self._item.name:
             print(f"You steal from {self.name}")
@@ -53,11 +60,12 @@ class Character():
 
 
 
-'''
+"""
 The name of this new class is Enemy.
 Putting Character inside the brackets tells Python that the Enemy class will inherit all of the methods from Character.
 Character is called the superclass of Enemy, and Enemy is a subclass of Character.
-'''
+Enemy can have it's weakness property set
+"""
 class Enemy(Character):
     #making the __init__ here stops it using the one from Character class
     def __init__(self, char_name, char_description):
@@ -71,6 +79,8 @@ class Enemy(Character):
     def get_weakness(self):
         return self.weakness
     
+    """ A player fights an enemy to remove it from the game, they have to use the correct item or they die
+       True/False returned to denote if succesful"""
     def fight(self, combat_item):
         if combat_item == self.weakness:
             print(f"You fend {self.name} off with the {combat_item}")
@@ -79,6 +89,10 @@ class Enemy(Character):
             print(f"{self.name} crushes you, puny adventurer")
             return False    
 
+"""
+An Animal class to create friendly creature to interact with
+Poperties, huggable, the food they need and teh sound they make and corresponding functions to set and get these
+"""
 class Animal(Character):
     #making the __init__ here stops it using the one from Character class
     def __init__(self, char_name, char_description):
@@ -112,6 +126,8 @@ class Animal(Character):
         else:
             print(f"{self.name} cannot talk")
 
+    """play a sound ig hugged, if properties allow, 
+    Retruen True/False to denote if hugged"""
     def hug(self):
         if self.huggable is not None:
             print(f"[{self.name}]: {self.hug_sound}")
@@ -120,6 +136,8 @@ class Animal(Character):
             print(f"{self.name} does not like hugs")
             return False
 
+    """A method to feed the animal, see if they like the fooe or not hungry
+       True/Fasle returned to denote if fed""" 
     def feed(self, food_item):
         if self.food is not None:
             if food_item == self.food:
