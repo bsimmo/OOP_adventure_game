@@ -49,18 +49,18 @@ class Room():
         print(self.description)
 
     def get_details(self):
-        print("\n==")
+        print(f"\n==")
         print(f"You are in the {self._name}, it is {self._description}.")
         if self._item:
             self._item.get_details()
-        print("~~")
+        print(f"~~")
         for direction in self.linked_rooms:
             room = self.linked_rooms[direction]
-            print( f"The {room._name} is {direction}")
+            print(f"The {room._name} is {direction}")
 
     def move(self, direction):
         if direction in self.linked_rooms:
             return self.linked_rooms[direction]
         else:
-            print("You can't go that way")
+            print(f"You can't go that way")
             return self

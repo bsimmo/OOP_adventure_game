@@ -26,16 +26,16 @@ class RPGInfo():
 
     @classmethod
     def commands(cls):
-        print("To help you in your adventure, these are the commands you can use")
+        print(f"To help you in your adventure, these are the commands you can use")
         for action in cls.command:
             print(f"{action:7} :- {cls.command[action]}")
     
         
     @staticmethod
     def info():
-        print("Made using the RPi/FL OOP RPG game creater")
+        print(f"Made using the RPi/FL OOP RPG game creater")
         
     @classmethod
     def credits(cls):
-        print("Thank you for playing")
+        print(f"Thank you for playing")
         print(f"Created by {cls.author}")
