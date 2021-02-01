@@ -100,7 +100,7 @@ RPGInfo.info()
 the_game.rules()
 
 
-print(f"There are {str(Room.number_of_rooms)} rooms to explore.\ntype help for command and more information")
+print(f"There are {str(Room.number_of_rooms)} rooms to explore.\ntype help for commands and more information")
 
 
 while alive:
@@ -112,24 +112,29 @@ while alive:
     
         # loop so we don't display room details after every action.
     while True:
-        command = input(f" What would would you like to do? >")
-        
+        player_command = input(f" What would would you like to do? >")
+        command = player_command.split(" ",2)
+        if len(command) > 2:
+            print(f"the command is too long long, plese use a max of 2, ignoring the last part")
+
             # Check whether a direction was typed
-        if command in ["north", "south", "east", "west"]:
+        if command[0] in ["north", "south", "east", "west"]:
             in_room = current_room
-            current_room = current_room.move(command)
+            current_room = current_room.move(command[0])
             if current_room == in_room:
                 pass
             else:
                 break # Moved so we need to start the main loop again
         
-        elif command == "talk":
+        elif command[0] == "talk":
             if inhabitant is not None:
                 inhabitant.talk()
         
-        elif command == "fight":
+        elif command[0] == "fight":
             if isinstance(inhabitant, Enemy):
-                fight_item = input(f" What item do you want to use >?")
+                if len(command) == 1:
+                    command.append( input(f" What item do you want to use >?") )
+                fight_item = command[1]
                 if fight_item in storage:
                     print(f"You take out the {fight_item} and lunge towards {inhabitant.name}")
                     if inhabitant.fight(fight_item):
@@ -143,10 +148,10 @@ while alive:
             else:
                 print(f"You cannot fight anyone")
 
-        elif command == "info":
+        elif command[0] == "info":
             break
         
-        elif command == "help":
+        elif command[0] == "help":
             print(f"\n\n### ### ###")
             the_game.commands()
             the_game.rules()
@@ -158,9 +163,11 @@ while alive:
                         print(f"{item.name}", end=", ")
                 print("")
             
-        elif command == "feed":
+        elif command[0] == "feed":
             if isinstance(inhabitant, Animal):
-                feed_item = input(f" What item do you want to use >?")
+                if len(command) == 1:
+                    command.append( input(f" What item do you want to use >?") )
+                feed_item = command[1]
                 if feed_item in storage:
                     if inhabitant.feed(feed_item):
                             storage.remove(feed_item)
@@ -171,7 +178,7 @@ while alive:
             else:
                 print(f"you cannot feed anyone")
 
-        elif command == "hug":
+        elif command[0] == "hug":
             if isinstance(inhabitant, Animal):
                 inhabitant.hug()
             
@@ -181,9 +188,11 @@ while alive:
             else:
                 print(f"nothing to hug")
                 
-        elif command == "steal":
+        elif command[0] == "steal":
             if inhabitant is not None:
-                steal_item = input(f" What item do you want to steal >?")
+                if len(command) == 1:
+                    command.append( input(f" What item do you want to steal >?") )
+                steal_item = command[1]                
                 if isinstance(inhabitant, Enemy):
                     if inhabitant.steal(steal_item) is False:
                         alive = False
@@ -196,9 +205,11 @@ while alive:
             else:
                 print(f"There is nothing to steal")
                 
-        elif command == "take":
+        elif command[0] == "take":
             if current_room.item is not None:
-                take_item = input(f" What item do you want to take >?")
+                if len(command) == 1:
+                    command.append(input(f" What item do you want to take >?"))
+                take_item = command[1]
                 if current_room.item.name == take_item:
                     print(f"you have taken the {take_item} and placed it in the {the_game.storage}")
                     storage.append(current_room.item)
