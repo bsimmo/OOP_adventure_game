@@ -126,7 +126,7 @@ class Animal(Character):
         else:
             print(f"{self.name} cannot talk")
 
-    """play a sound ig hugged, if properties allow, 
+    """play a sound if hugged, if properties allow, 
     Retruen True/False to denote if hugged"""
     def hug(self):
         if self.huggable is not None:
@@ -136,8 +136,8 @@ class Animal(Character):
             print(f"{self.name} does not like hugs")
             return False
 
-    """A method to feed the animal, see if they like the fooe or not hungry
-       True/Fasle returned to denote if fed""" 
+    """A method to feed the animal, see if they like the food or not hungry
+       True/False returned to denote if fed""" 
     def feed(self, food_item):
         if self.food is not None:
             if food_item == self.food:
